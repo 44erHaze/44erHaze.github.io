@@ -1,7 +1,156 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anthony Franz | Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+    }
+    header {
+      background: #111;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    nav a {
+      color: white;
+      margin-left: 1.5rem;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    .hero {
+      text-align: center;
+      padding: 6rem 2rem;
+      background: linear-gradient(to right, #667eea, #764ba2);
+      color: white;
+    }
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+    .hero a {
+      padding: 0.75rem 1.5rem;
+      background: white;
+      color: #333;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+    .hero a:hover {
+      background: #ddd;
+    }
+    section {
+      padding: 4rem 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .buttons a {
+      display: inline-block;
+      margin: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      background: #333;
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: transform 0.2s, background 0.3s;
+    }
+    .buttons a:hover {
+      transform: translateY(-2px);
+      background: #555;
+    }
+    footer {
+      background: #111;
+      color: white;
+      padding: 2rem;
+      text-align: center;
+    }
+    footer a {
+      color: white;
+      margin: 0 0.5rem;
+      text-decoration: none;
+    }
+    footer a:hover {
+      color: #aaa;
+    }
+  </style>
+</head>
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
+
+  <header>
+    <div><strong>Anthony Franz</strong></div>
+    <nav>
+      <a href="#about">Über mich</a>
+      <a href="#projects">Projekte</a>
+      <a href="#contact">Kontakt</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <h1>Willkommen auf meinem Portfolio</h1>
+    <p>Informatiker | Entwickler | Kreativer Denker</p>
+    <a href="#about">Mehr erfahren</a>
+  </div>
+
+  <section id="about">
+    <h2>Über mich</h2>
+    <p>
+      Ich bin Anthony Franz, ein leidenschaftlicher IT-Spezialist mit Fokus auf Anwendungsentwicklung und Automatisierung. Dieses Portfolio zeigt meine Projekte, Fähigkeiten und meine Persönlichkeit.
+    </p>
+    <div class="buttons">
+      <a href="cv_anthonyfranz.pdf" target="_blank"><i class="fa-solid fa-download"></i> Lebenslauf herunterladen</a>
+    </div>
+  </section>
+
+  <section id="projects">
+    <h2>Projekte</h2>
+    <p>
+      Hier findest du eine Auswahl meiner technischen und kreativen Projekte. Klicke auf die Buttons für mehr Infos.
+    </p>
+    <div class="buttons">
+      <a href="https://github.com/44erHaze/SaveUp2025" target="_blank">Projekt 1</a>
+      <a href="https://github.com/44erHaze/JetstreamService" target="_blank">Projekt 2</a>
+      <a href="https://github.com/44erHaze/CRUD" target="_blank">Projekt 3</a>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>Kontakt</h2>
+    <p>Sie können mich jederzeit über folgende Kanäle erreichen:</p>
+    <div class="buttons">
+      <a href="mailto:anthony.franz7@gmail.com"><i class="fa-solid fa-envelope"></i> E-Mail senden</a>
+      <a href="https://www.linkedin.com/in/anthony-franz-852280255/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Anthony Franz</p>
+    <div>
+      <a href="https://github.com/deinusername" target="_blank"><i class="fab fa-github"></i></a>
+      <a href="https://www.linkedin.com/in/anthony-franz-852280255/" target="_blank"><i class="fab fa-linkedin"></i></a>
+      <a href="mailto:anthony.franz7@gmail.com"><i class="fas fa-envelope"></i></a>
+    </div>
+  </footer>
+
 </body>
 </html>

@@ -1,0 +1,246 @@
+:root {
+  --bg-color: #000000;
+  --text-color: #ffffff;
+  --nav-bg: #111;
+  --hero-gradient: linear-gradient(to right, #667eea, #764ba2);
+  --btn-bg: #eeeeee;
+  --btn-hover: #555;
+}
+
+[data-theme="dark"] {
+  --bg-color: #121212;
+  --text-color: #f4f4f4;
+  --nav-bg: #000;
+  --hero-gradient: linear-gradient(to right, #222, #444);
+  --btn-bg: #f4f4f4;
+  --btn-hover: #ccc;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background 0.3s, color 0.3s;
+}
+
+/* Header */
+
+header {
+  position: relative;
+  background: var(--nav-bg);
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1000;
+  overflow: hidden;
+  height: 70px;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 1.25rem;
+  z-index: 10;
+}
+
+/* Codezeilen fliegen von oben nach unten */
+
+.code-flyer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  user-select: none;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.85rem;
+  color: #4caf50;
+  white-space: nowrap;
+  overflow: visible;
+  z-index: 5;
+}
+
+.code-flyer span {
+  position: absolute;
+  top: -2em; /* Start oberhalb */
+  animation: flycodeDown linear infinite;
+  opacity: 0.8;
+  font-weight: 600;
+  right: 0; /* am rechten Rand */
+}
+
+.code-flyer span:nth-child(1) {
+  left: 5%;
+  animation-duration: 8s;
+  animation-delay: 0s;
+}
+
+.code-flyer span:nth-child(2) {
+  left: 25%;
+  animation-duration: 10s;
+  animation-delay: 4s;
+}
+
+.code-flyer span:nth-child(3) {
+  left: 45%;
+  animation-duration: 7s;
+  animation-delay: 2s;
+}
+
+.code-flyer span:nth-child(4) {
+  left: 65%;
+  animation-duration: 10s;
+  animation-delay: 6s;
+}
+
+.code-flyer span:nth-child(5) {
+  left: 85%;
+  animation-duration: 11s;
+  animation-delay: 1s;
+}
+
+@keyframes flycodeDown {
+  0% {
+    top: -2em;
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+/* Hero */
+
+.hero {
+  text-align: center;
+  padding: 6rem 2rem;
+  background: var(--hero-gradient);
+  color: white;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+
+.typing {
+  display: inline-block;
+  border-right: 2px solid white;
+  white-space: nowrap;
+  overflow: hidden;
+  animation: typing 3s steps(40, end) forwards, blink 0.7s step-end 10 forwards;
+  animation-delay: 0s, 3s;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    border-color: transparent;
+  }
+  50% {
+    border-color: white;
+  }
+}
+
+.hero p {
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.hero a {
+  padding: 0.75rem 1.5rem;
+  background: white;
+  color: #333;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.hero a:hover {
+  background: #ddd;
+}
+
+/* Section */
+
+section {
+  padding: 4rem 2rem;
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+  scroll-margin-top: 100px;
+}
+
+.buttons a {
+  display: inline-block;
+  margin: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--btn-bg);
+  color: var(--bg-color);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: transform 0.2s, background 0.3s;
+}
+
+.buttons a:hover {
+  transform: translateY(-2px);
+  background: var(--btn-hover);
+}
+
+/* Footer */
+
+footer {
+  background: var(--nav-bg);
+  color: white;
+  padding: 2rem;
+  text-align: center;
+}
+
+footer a {
+  color: white;
+  margin: 0 0.5rem;
+  text-decoration: none;
+}
+
+footer a:hover {
+  color: #aaa;
+}
+
+/* To Top Button */
+
+#toTop {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--btn-bg);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: none;
+  z-index: 999;
+}

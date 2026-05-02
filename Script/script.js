@@ -1,104 +1,124 @@
-// Dark Mode Toggle
+// Theme Toggle mit LocalStorage
 function toggleTheme() {
-  document.body.dataset.theme = document.body.dataset.theme === "dark" ? "" : "dark";
+  const body = document.body;
+  const icon = document.getElementById("theme-icon");
+  
+  if (body.getAttribute("data-theme") === "dark") {
+    body.setAttribute("data-theme", "light");
+    icon.classList.replace("fa-moon", "fa-sun");
+    localStorage.setItem("theme", "light");
+  } else {
+    body.setAttribute("data-theme", "dark");
+    icon.classList.replace("fa-sun", "fa-moon");
+    localStorage.setItem("theme", "dark");
+  }
 }
 
-// Scroll to top button
+// Lade gespeichertes Theme beim Start
+window.addEventListener('DOMContentLoaded', () => {
+  const savedTheme = localStorage.getItem("theme") || "dark";
+  document.body.setAttribute("data-theme", savedTheme);
+  const icon = document.getElementById("theme-icon");
+  if (savedTheme === "light") {
+    icon.classList.replace("fa-moon", "fa-sun");
+  }
+  
+  initFlyers();
+});
+
+// Scroll to top button Logic
+const toTopBtn = document.getElementById("toTop");
+
+window.addEventListener("scroll", () => {
+  if (window.scrollY > 300) {
+    toTopBtn.classList.add("visible");
+  } else {
+    toTopBtn.classList.remove("visible");
+  }
+});
+
 function scrollToTop() {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-window.onscroll = () => {
-  const btn = document.getElementById("toTop");
-  btn.style.display = window.scrollY > 200 ? "block" : "none";
-};
-
+// Smooth Scroll für Navigation
 function scrollToSection(event, id) {
   event.preventDefault();
-  const headerOffset = 69;
+  const headerOffset = 70;
   const element = document.getElementById(id);
-  element.scrollIntoView({ behavior: "smooth", block: "start" });
-  setTimeout(() => {
-    window.scrollBy(0, -headerOffset);
-  }, 469);
+  const elementPosition = element.getBoundingClientRect().top;
+  const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+  window.scrollTo({
+    top: offsetPosition,
+    behavior: "smooth"
+  });
 }
 
-// Fliegende Codezeilen im Header
+// Matrix/Monolith Code Flyer Logik
 const codeSnippets = [
   "const x = 42;",
-  "function hello() { console.log('Hi'); }",
-  "let y = x * 2;",
-  "if (y > 50) { alert('Big number!'); }",
-  "for(let i=0;i<10;i++){}",
-  "console.log('Code fly!');",
-  "const arr = [1,2,3,4];",
-  "arr.map(n => n*n);",
-  "import React from 'react';",
-  "return fetch('/api/data');",
+  "await fetch('/api/v1/auth');",
+  "docker-compose up -d",
+  "SELECT * FROM Users WHERE active = 1;",
+  "public static void main(String[] args)",
+  "npm run build",
+  "git commit -m 'Initial commit'",
+  "try { execute() } catch (e) { log(e) }",
+  "border-radius: 12px;",
+  "IConfiguration _config;"
 ];
 
-const flyerContainer = document.querySelector('.code-flyer-container');
-const codeLineCount = 15; // Anzahl der Codezeilen
-
+const flyerContainer = document.querySelector('.code-flyer');
+const codeLineCount = 12; // Weniger ist mehr für einen cleanen Look
 let flyers = [];
 
 function createCodeFlyer() {
-  const span = document.createElement('span');
+  const span = document.createElement('div');
+  span.className = 'code-snippet';
   span.textContent = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
 
-  // Zufällige Startposition im Header
-  span.style.left = Math.random() * window.innerWidth + 'px';
-  const headerHeight = document.querySelector('header').offsetHeight;
-  span.style.top = Math.random() * (headerHeight - 20) + 'px';
-
+  // Startpositionen
+  span.style.left = Math.random() * 90 + '%';
+  span.style.top = (Math.random() * 100 + 100) + '%'; // Startet unterhalb des sichtbaren Bereichs
+  
   flyerContainer.appendChild(span);
 
-  // Zufällige Geschwindigkeit (x: horizontal, y: vertikal)
-  const velocity = {
-    x: (Math.random() * 0.5 + 0.1) * (Math.random() > 0.5 ? 1 : -1),
-    y: (Math.random() * 0.3 - 0.15)
-  };
+  // Vertikale Geschwindigkeit
+  const speed = Math.random() * 0.5 + 0.2;
 
-  return { elem: span, velocity };
+  return { elem: span, y: parseFloat(span.style.top), speed: speed };
 }
 
 function animateFlyers() {
   flyers.forEach(flyer => {
-    const rect = flyer.elem.getBoundingClientRect();
-    let left = parseFloat(flyer.elem.style.left);
-    let top = parseFloat(flyer.elem.style.top);
-
-    left += flyer.velocity.x;
-    top += flyer.velocity.y;
-
-    // Horizontal Schleife
-    if (left > window.innerWidth) left = -rect.width;
-    else if (left < -rect.width) left = window.innerWidth;
-
-    // Vertikale Begrenzung (Headerhöhe)
-    const headerHeight = document.querySelector('header').offsetHeight;
-    if (top > headerHeight - rect.height) {
-      top = headerHeight - rect.height;
-      flyer.velocity.y *= -1;
-    } else if (top < 0) {
-      top = 0;
-      flyer.velocity.y *= -1;
+    flyer.y -= flyer.speed; // Fliegt nach oben
+    
+    // Fade in / Fade out Logik basierend auf der Höhe
+    let opacity = 0;
+    if (flyer.y < 100 && flyer.y > 0) {
+      // Wenn es im Bild ist, einblenden, am Rand ausblenden
+      opacity = Math.sin((flyer.y / 100) * Math.PI) * 0.5; 
+    }
+    
+    // Reset, wenn es oben rausfliegt
+    if (flyer.y < -10) {
+      flyer.y = 110;
+      flyer.elem.style.left = Math.random() * 90 + '%';
+      flyer.elem.textContent = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
     }
 
-    flyer.elem.style.left = left + 'px';
-    flyer.elem.style.top = top + 'px';
+    flyer.elem.style.top = flyer.y + '%';
+    flyer.elem.style.opacity = opacity;
   });
 
   requestAnimationFrame(animateFlyers);
 }
 
 function initFlyers() {
+  if(!flyerContainer) return;
   for (let i = 0; i < codeLineCount; i++) {
     flyers.push(createCodeFlyer());
   }
   animateFlyers();
 }
-
-window.addEventListener('DOMContentLoaded', () => {
-  initFlyers();
-});

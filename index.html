@@ -3,93 +3,119 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Anthony Franz | Portfolio</title>
+  <title>Anthony Franz | Software Developer</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <!-- Inter für Fließtext, JetBrains Mono für Code/Tech-Akzente -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/Styles/styles.css" />
 </head>
-<body>
+<body data-theme="dark">
 
   <header>
-    <div class="logo">Anthony Franz</div>
-    <div class="code-flyer" aria-label="Fliegende Codezeilen">
-      <span>const x = 42;</span>
-      <span>function hello() { console.log('Hi'); }</span>
-      <span>let y = x * 2;</span>
-      <span>if (y &gt; 50) { alert('Big number!'); }</span>
-      <span>for(let i=0;i&lt;10;i++) {}</span>
+    <div class="logo">
+      <span class="mono-accent">&lt;/&gt;</span> Anthony Franz
     </div>
     <div class="right-controls">
-      <span class="theme-toggle" onclick="toggleTheme()" title="Dark Mode umschalten">🌓</span>
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Theme umschalten">
+        <i class="fa-solid fa-moon" id="theme-icon"></i>
+      </button>
     </div>
   </header>
 
-  <div class="hero">
-    <h1 class="typing">Hello World!</h1>
-    <div style="max-width: 800px; margin: 2rem auto; text-align: center; font-size: 0.95rem;">
-      <p>
-        I am seeking a <strong>12-month internship</strong> to complete my training as an application developer.
-        With two years of theoretical and some practical experience in <strong>C#, Java, SQL, HTML5/CSS, .NET</strong>, and standard Microsoft Office applications, I am well-prepared to contribute to your team.
-        <br><br>
-        My knowledge also extends to <strong>cloud technology, DevOps, project organization</strong> and methods like <strong>Scrum</strong>.
-        I am eager to apply my skills and learn from real-world projects — aiming to grow as a professional and bring value to your organization.
-      </p>
-      <hr style="margin: 2rem 0; border: none; border-top: 1px solid rgba(255,255,255,0.3);" />
-      <p>
-        Ich suche ein <strong>12-monatiges Praktikum</strong>, um meine Ausbildung als Applikationsentwickler abzuschließen.
-        Mit zwei Jahren theoretischer und einiger praktischer Erfahrung in <strong>C#, Java, SQL, HTML5/CSS, .NET</strong> und den gängigen Microsoft Office-Anwendungen bin ich gut darauf vorbereitet, Ihr Team zu unterstützen.
-        <br><br>
-        Mein Wissen umfasst auch <strong>Cloud-Technologien, DevOps, Projektorganisation</strong> und Methoden wie <strong>Scrum</strong>.
-        Ich freue mich darauf, meine Fähigkeiten einzusetzen und aus realen Projekten zu lernen — um mich als Fachmann weiterzuentwickeln und Ihrem Unternehmen einen Mehrwert zu bieten.
-      </p>
-      <div style="margin-top: 2rem;">
-        <a href="#contact" onclick="scrollToSection(event, 'contact')">Jetzt kontaktieren</a>
+  <div class="hero" id="home">
+    <!-- Hier fliegen die Codezeilen im Hintergrund -->
+    <div class="code-flyer"></div>
+    
+    <div class="hero-content">
+      <h1 class="typing">Hello World<span class="cursor">_</span></h1>
+      <p class="subtitle">Software Developer & Application Engineer</p>
+      
+      <div class="text-card">
+        <p>
+          I am seeking a <span class="highlight">12-month internship</span> to complete my training as an application developer.
+          With theoretical and practical experience in <span class="highlight">C#, Java, SQL, HTML5/CSS, .NET</span>, I am well-prepared to contribute to your team.
+        </p>
+        <p>
+          My knowledge extends to <span class="highlight">Cloud Technology, DevOps</span>, and <span class="highlight">Scrum</span>.
+          I am eager to apply my skills, learn from real-world projects, and bring value to your organization.
+        </p>
+        <hr class="divider" />
+        <p>
+          Ich suche ein <span class="highlight">12-monatiges Praktikum</span>, um meine Ausbildung als Applikationsentwickler abzuschließen.
+          Mit Erfahrung in <span class="highlight">C#, Java, SQL, HTML5/CSS, .NET</span> bin ich gut darauf vorbereitet, Ihr Team zu unterstützen.
+        </p>
+        <p>
+          Mein Wissen umfasst <span class="highlight">Cloud-Technologien, DevOps</span> und <span class="highlight">Scrum</span>.
+          Ich freue mich darauf, aus realen Projekten zu lernen und Ihrem Unternehmen einen Mehrwert zu bieten.
+        </p>
+      </div>
+
+      <div class="hero-actions">
+        <a href="#contact" class="btn btn-primary" onclick="scrollToSection(event, 'contact')">Jetzt kontaktieren</a>
       </div>
     </div>
   </div>
 
-  <section id="about">
-    <h2>Über mich</h2>
-    <p>
+  <section id="about" class="section-container">
+    <div class="section-header">
+      <h2><span class="mono-accent">01.</span> Über mich</h2>
+    </div>
+    <p class="section-text">
       Ich bin Anthony Franz, ein leidenschaftlicher IT-Spezialist mit Fokus auf Anwendungsentwicklung und Automatisierung. Dieses Portfolio zeigt meine Projekte, Fähigkeiten und meine Persönlichkeit.
     </p>
     <div class="buttons">
-      <a href="cv_anthony_franz.pdf" target="_blank"><i class="fa-solid fa-download"></i> Lebenslauf herunterladen</a>
+      <a href="cv_anthony_franz.pdf" target="_blank" class="btn btn-secondary">
+        <i class="fa-solid fa-file-pdf"></i> Lebenslauf herunterladen
+      </a>
     </div>
   </section>
 
-  <section id="projects">
-    <h2>Projekte</h2>
-    <p>
-      Hier findest du eine Auswahl meiner technischen und kreativen Projekte. Klicke auf die Buttons für mehr Infos.
+  <section id="projects" class="section-container">
+    <div class="section-header">
+      <h2><span class="mono-accent">02.</span> Projekte</h2>
+    </div>
+    <p class="section-text">
+      Hier findest du eine Auswahl meiner technischen und kreativen Projekte. Klicke auf die Links, um den Code und weitere Infos auf GitHub zu sehen.
     </p>
-    <div class="buttons">
-      <a href="https://github.com/44erHaze/SaveUp2025" target="_blank">SaveUp App</a>
-      <a href="https://github.com/44erHaze/JetstreamService" target="_blank">JetStreamService</a>
-      <a href="https://github.com/44erHaze/CRUD" target="_blank">CRUD</a>
+    <div class="project-grid">
+      <a href="https://github.com/44erHaze/SaveUp2025" target="_blank" class="project-card">
+        <h3>SaveUp App</h3>
+        <p>Finanz- und Spar-Tracker Applikation.</p>
+        <span class="tech-tag">C# / .NET</span>
+      </a>
+      <a href="https://github.com/44erHaze/JetstreamService" target="_blank" class="project-card">
+        <h3>JetStreamService</h3>
+        <p>High-Performance Backend Service System.</p>
+        <span class="tech-tag">Java</span>
+      </a>
+      <a href="https://github.com/44erHaze/CRUD" target="_blank" class="project-card">
+        <h3>CRUD</h3>
+        <p>Basis Create-Read-Update-Delete Applikation.</p>
+        <span class="tech-tag">SQL / Backend</span>
+      </a>
     </div>
   </section>
 
-  <section id="contact">
-    <h2>Kontakt</h2>
-    <p>Sie können mich jederzeit über folgende Kanäle erreichen:</p>
-    <div class="buttons">
-      <a href="mailto:anthony.franz7@gmail.com"><i class="fa-solid fa-envelope"></i> E-Mail senden</a>
-      <a href="https://www.linkedin.com/in/anthony-franz-852280255/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
-      <a href="https://github.com/44erHaze" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+  <section id="contact" class="section-container">
+    <div class="section-header">
+      <h2><span class="mono-accent">03.</span> Kontakt</h2>
+    </div>
+    <p class="section-text">Lass uns gemeinsam an spannenden Projekten arbeiten. Erreichbar über folgende Kanäle:</p>
+    <div class="social-links">
+      <a href="mailto:anthony.franz7@gmail.com" class="social-btn"><i class="fa-solid fa-envelope"></i> E-Mail</a>
+      <a href="https://www.linkedin.com/in/anthony-franz-852280255/" target="_blank" class="social-btn"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+      <a href="https://github.com/44erHaze" target="_blank" class="social-btn"><i class="fab fa-github"></i> GitHub</a>
     </div>
   </section>
 
   <footer>
-    <p>© 2025 Anthony Franz</p>
-    <div>
-      <a href="https://github.com/44erHaze" target="_blank"><i class="fab fa-github"></i></a>
-      <a href="https://www.linkedin.com/in/anthony-franz-852280255/" target="_blank"><i class="fab fa-linkedin"></i></a>
-      <a href="mailto:anthony.franz7@gmail.com"><i class="fas fa-envelope"></i></a>
-    </div>
+    <p>© 2025 Anthony Franz. Built with code & coffee.</p>
   </footer>
 
-  <button id="toTop" onclick="scrollToTop()">↑</button>
-  <script src="/Script/script.js"></script>
+  <button id="toTop" onclick="scrollToTop()" aria-label="Nach oben scrollen">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
+
+  <script src="script.js"></script>
 </body>
 </html>

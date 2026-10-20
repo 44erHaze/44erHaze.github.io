@@ -3,11 +3,80 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Anthony Franz | Software Developer</title>
+  <title>Anthony Franz | Junior IT Engineer</title>
+  <meta name="description" content="Anthony Franz – Informatiker EFZ, Applikations- und Plattformentwicklung, Raum Basel." />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <!-- Inter für Fließtext, JetBrains Mono für Code/Tech-Akzente -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/Styles/styles.css" />
+  <link rel="stylesheet" href="Styles/styles.css" />
+
+  <!-- Three.js für den 3D-Schreibtisch (fest auf Version 0.160.0 gepinnt) -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+
+  <style>
+    [hidden] { display: none !important; }
+
+    /* Hero: alles untereinander, Schreibtisch über volle Breite */
+    .hero {
+      min-height: auto;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 7rem 0 3rem;
+    }
+    .hero-content {
+      width: 100%;
+      max-width: 900px;
+      padding: 0 1.5rem;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .hero-content .subtitle { margin-bottom: 0; }
+
+    .desk-section {
+      width: 100%;
+      margin-top: 1.5rem;
+    }
+    .desk-wrap { width: 100%; }
+
+    /* Höhe wächst mit der Fensterbreite, damit der Tisch die Breite füllt */
+    #desk-3d {
+      width: 100%;
+      height: clamp(380px, 30vw, 760px);
+      position: relative;
+    }
+    #desk-3d canvas { display: block; width: 100%; height: 100%; touch-action: none; }
+    .desk-fallback { text-align: center; opacity: 0.7; padding-top: 6rem; }
+
+    .desk-actions { display: flex; justify-content: center; margin-top: 0.75rem; }
+
+    .hero-body {
+      width: 100%;
+      max-width: 900px;
+      padding: 0 1.5rem;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .hero-body .text-card { width: 100%; box-sizing: border-box; }
+    .hero-actions .btn-primary { margin-top: 0; }
+
+    /* Tech-Stack */
+    .stack-group { margin-bottom: 1.25rem; }
+    .stack-group h3 { margin-bottom: 0.5rem; font-size: 1rem; }
+    .stack-group .tech-tag { margin: 0 0.4rem 0.4rem 0; display: inline-block; }
+  </style>
 </head>
 <body data-theme="dark">
 
@@ -23,35 +92,36 @@
   </header>
 
   <div class="hero" id="home">
-    <!-- Hier fliegen die Codezeilen im Hintergrund -->
-    <div class="code-flyer"></div>
-    
     <div class="hero-content">
       <h1 class="typing">Hello World<span class="cursor">_</span></h1>
-      <p class="subtitle">Software Developer & Application Engineer</p>
-      
-      <div class="text-card">
+      <p class="subtitle">Junior IT Engineer · Applikations- &amp; Plattformentwicklung</p>
+    </div>
+
+    <section class="desk-section">
+      <div class="desk-wrap">
+        <div id="desk-3d" aria-hidden="true">
+          <p class="desk-fallback">3D-Schreibtisch wird geladen …</p>
+        </div>
+        <div class="desk-actions">
+          <button id="toggle-3d" class="btn btn-secondary" type="button">3D ausschalten</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="hero-body">
+      <!-- Wird per JavaScript ausgeblendet, solange der Text im Monitor steht -->
+      <div class="text-card" id="intro-card" hidden>
         <p>
-          I am seeking a <span class="highlight">12-month internship</span> to complete my training as an application developer.
-          With theoretical and practical experience in <span class="highlight">C#, Java, SQL, HTML5/CSS, .NET</span>, I am well-prepared to contribute to your team.
+          Ich entwickle Applikationen und betreue die Infrastruktur dahinter, von der ersten Zeile Code bis zum
+          laufenden Betrieb. Aktuell arbeite ich Vollzeit als Praktikant bei <span class="highlight">der ipso! Bildung AG</span>.
         </p>
         <p>
-          My knowledge extends to <span class="highlight">Cloud Technology, DevOps</span>, and <span class="highlight">Scrum</span>.
-          I am eager to apply my skills, learn from real-world projects, and bring value to your organization.
-        </p>
-        <hr class="divider" />
-        <p>
-          Ich suche ein <span class="highlight">12-monatiges Praktikum</span>, um meine Ausbildung als Applikationsentwickler abzuschließen.
-          Mit Erfahrung in <span class="highlight">C#, Java, SQL, HTML5/CSS, .NET</span> bin ich gut darauf vorbereitet, Ihr Team zu unterstützen.
-        </p>
-        <p>
-          Mein Wissen umfasst <span class="highlight">Cloud-Technologien, DevOps</span> und <span class="highlight">Scrum</span>.
-          Ich freue mich darauf, aus realen Projekten zu lernen und Ihrem Unternehmen einen Mehrwert zu bieten.
+          Meine duale Ausbildung zum Informatiker EFZ mit Spezialisierung in Applikations- und Plattformentwicklung schliesse ich im September 2027 ab.
         </p>
       </div>
 
       <div class="hero-actions">
-        <a href="#contact" class="btn btn-primary" onclick="scrollToSection(event, 'contact')">Jetzt kontaktieren</a>
+        <a href="#contact" class="btn btn-primary" onclick="scrollToSection(event, 'contact')">Kontakt aufnehmen</a>
       </div>
     </div>
   </div>
@@ -61,7 +131,13 @@
       <h2><span class="mono-accent">01.</span> Über mich</h2>
     </div>
     <p class="section-text">
-      Ich bin Anthony Franz, ein leidenschaftlicher IT-Spezialist mit Fokus auf Anwendungsentwicklung und Automatisierung. Dieses Portfolio zeigt meine Projekte, Fähigkeiten und meine Persönlichkeit.
+      Ich bin Anthony Franz, angehender Informatiker EFZ mit einer dualen Spezialisierung in Applikations- und
+      Plattformentwicklung. Ich betrachte Systeme ganzheitlich: von sauberer Software-Architektur über Datenbanken
+      und Netzwerke bis zum Betrieb. Ich arbeite strukturiert, lösungsorientiert und im Team.
+    </p>
+    <p class="section-text">
+      <strong>Sprachen:</strong> Deutsch (Muttersprache), Thai (Muttersprache), Englisch (C1, Cambridge)<br />
+      <strong>Zertifikat:</strong> AISA Official AI Skills &amp; Fluency Certificate
     </p>
     <div class="buttons">
       <a href="cv_anthony_franz.pdf" target="_blank" class="btn btn-secondary">
@@ -70,12 +146,67 @@
     </div>
   </section>
 
-  <section id="projects" class="section-container">
+  <section id="stack" class="section-container">
     <div class="section-header">
-      <h2><span class="mono-accent">02.</span> Projekte</h2>
+      <h2><span class="mono-accent">02.</span> Tech-Stack</h2>
+    </div>
+    <div class="stack-group">
+      <h3>Applikationsentwicklung</h3>
+      <span class="tech-tag">C#</span><span class="tech-tag">.NET</span><span class="tech-tag">Java</span>
+      <span class="tech-tag">JavaScript</span><span class="tech-tag">HTML5</span><span class="tech-tag">CSS</span>
+      <span class="tech-tag">REST-APIs</span><span class="tech-tag">Postman</span><span class="tech-tag">Visual Studio</span>
+      <span class="tech-tag">PowerShell</span>
+    </div>
+    <div class="stack-group">
+      <h3>Datenbanken</h3>
+      <span class="tech-tag">SQL</span><span class="tech-tag">MySQL</span><span class="tech-tag">MongoDB</span>
+      <span class="tech-tag">Neo4j</span><span class="tech-tag">Supabase</span>
+    </div>
+    <div class="stack-group">
+      <h3>Plattform, Netzwerk &amp; DevOps</h3>
+      <span class="tech-tag">Linux / Ubuntu</span><span class="tech-tag">Windows Server</span><span class="tech-tag">Proxmox</span>
+      <span class="tech-tag">Hyper-V</span><span class="tech-tag">VirtualBox</span><span class="tech-tag">Docker</span>
+      <span class="tech-tag">Git</span><span class="tech-tag">Cisco Packet Tracer</span><span class="tech-tag">OPNsense</span>
+      <span class="tech-tag">OpenWrt</span><span class="tech-tag">IPFire</span><span class="tech-tag">Wireshark</span>
+      <span class="tech-tag">TCP/IP</span><span class="tech-tag">Cloud</span>
+    </div>
+    <div class="stack-group">
+      <h3>Automatisierung &amp; Hardware</h3>
+      <span class="tech-tag">n8n</span><span class="tech-tag">ESP32</span><span class="tech-tag">IoT</span>
+    </div>
+    <div class="stack-group">
+      <h3>Methoden</h3>
+      <span class="tech-tag">Scrum</span><span class="tech-tag">Agile Methoden</span><span class="tech-tag">DevOps</span>
+      <span class="tech-tag">TDD</span><span class="tech-tag">Projektmanagement</span>
+    </div>
+  </section>
+
+  <section id="status" class="section-container">
+    <div class="section-header">
+      <h2><span class="mono-accent">03.</span> Aktuell &amp; Ziele</h2>
     </div>
     <p class="section-text">
-      Hier findest du eine Auswahl meiner technischen und kreativen Projekte. Klicke auf die Links, um den Code und weitere Infos auf GitHub zu sehen.
+      <strong>Aktuelle Tätigkeit:</strong> Ich arbeite als Praktikant bei der ipso! Bildung AG und übernehme dort
+      Support-Anfragen unterschiedlichster Art. Parallel betreibe ich ein eigenes Praktikums-Labor, in dem ich
+      Linux-Server, Virtualisierung mit Proxmox und Firewalls mit OPNsense aufbaue, teste und dokumentiere.
+    </p>
+    <p class="section-text">
+      <strong>Was ich gerade vertiefe:</strong> Virtualisierung und Netzwerksicherheit, Container-Deployments mit
+      Docker sowie die Anbindung von Workflows über n8n und Supabase, zum Beispiel für die Asset-Management-Plattform Shelf.
+    </p>
+    <p class="section-text"><strong>Mein Weg für die Zukunft:</strong></p>
+    <ul class="section-text">
+      <li><strong>bis 09/2027:</strong> Abschluss der EFZ-Ausbildung zum Informatiker mit Spezialisierung in Applikations- und Plattformentwicklung.</li>
+      <li><strong>ab 09/2027:</strong> Festanstellung im Raum Basel. Falls Sie jemanden mit diesem Profil suchen, melden Sie sich gerne bei mir.</li>
+    </ul>
+  </section>
+
+  <section id="projects" class="section-container">
+    <div class="section-header">
+      <h2><span class="mono-accent">04.</span> Projekte</h2>
+    </div>
+    <p class="section-text">
+      Eine Auswahl meiner Projekte. Klicke auf die Karten, um Code und weitere Infos auf GitHub zu sehen.
     </p>
     <div class="project-grid">
       <a href="https://github.com/44erHaze/SaveUp2025" target="_blank" class="project-card">
@@ -85,12 +216,12 @@
       </a>
       <a href="https://github.com/44erHaze/JetstreamService" target="_blank" class="project-card">
         <h3>JetStreamService</h3>
-        <p>High-Performance Backend Service System.</p>
+        <p>Backend-Service-System mit Fokus auf Performance.</p>
         <span class="tech-tag">Java</span>
       </a>
       <a href="https://github.com/44erHaze/CRUD" target="_blank" class="project-card">
         <h3>CRUD</h3>
-        <p>Basis Create-Read-Update-Delete Applikation.</p>
+        <p>Create-Read-Update-Delete Applikation.</p>
         <span class="tech-tag">SQL / Backend</span>
       </a>
     </div>
@@ -98,24 +229,27 @@
 
   <section id="contact" class="section-container">
     <div class="section-header">
-      <h2><span class="mono-accent">03.</span> Kontakt</h2>
+      <h2><span class="mono-accent">05.</span> Kontakt</h2>
     </div>
-    <p class="section-text">Lass uns gemeinsam an spannenden Projekten arbeiten. Erreichbar über folgende Kanäle:</p>
+    <p class="section-text">
+      Ich freue mich über Austausch und neue Projekte. Ich bin im Raum Basel vor Ort oder hybrid erreichbar.
+    </p>
     <div class="social-links">
       <a href="mailto:anthony.franz7@gmail.com" class="social-btn"><i class="fa-solid fa-envelope"></i> E-Mail</a>
-      <a href="https://www.linkedin.com/in/anthony-franz-852280255/" target="_blank" class="social-btn"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+      <a href="https://www.linkedin.com/in/anthony-franz/" target="_blank" class="social-btn"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
       <a href="https://github.com/44erHaze" target="_blank" class="social-btn"><i class="fab fa-github"></i> GitHub</a>
     </div>
   </section>
 
   <footer>
-    <p>© 2025 Anthony Franz. Built with code & coffee.</p>
+    <p>© 2026 Anthony Franz. Built with code &amp; coffee.</p>
   </footer>
 
   <button id="toTop" onclick="scrollToTop()" aria-label="Nach oben scrollen">
     <i class="fa-solid fa-arrow-up"></i>
   </button>
 
-  <script src="script.js"></script>
+  <script src="Script/script.js"></script>
+  <script type="module" src="Script/desk.js"></script>
 </body>
 </html>

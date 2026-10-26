@@ -252,6 +252,48 @@
     }
     .konami-hint:hover { opacity: 0.95; }
 
+    /* Touch-Eingabe für den Cheat-Code (nur auf Touch-Geräten sichtbar) */
+    .pad-open { margin-top: 0.75rem; }
+    .touch-pad {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--surface-color);
+      border-top: 1px solid var(--accent-primary);
+      padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom, 0px));
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      z-index: 2400;
+    }
+    .pad-row { display: flex; gap: 0.5rem; justify-content: center; }
+    .pad-btn {
+      min-width: 64px;
+      min-height: 52px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.2rem;
+      color: var(--text-main);
+      background: var(--bg-color);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+    .pad-btn.round { border-radius: 50%; min-width: 64px; min-height: 64px; }
+    .pad-btn:active { background: var(--accent-primary); color: #fff; }
+    .pad-close {
+      margin-top: 0.25rem;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      cursor: pointer;
+      padding: 0.4rem;
+    }
+
     /* Konami-Toast */
     .toast {
       position: fixed;
@@ -266,6 +308,9 @@
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.9rem;
       z-index: 2500;
+      max-width: calc(100% - 2rem);
+      box-sizing: border-box;
+      text-align: center;
     }
 
     /* Matrix-Regen für den Konami-Code */
@@ -292,8 +337,11 @@
       z-index: 2000;
     }
     .term-window {
-      width: min(1200px, 100%);
+      width: 100%;
+      max-width: 1200px;
+      min-width: 0;
       height: min(85vh, 820px);
+      box-sizing: border-box;
       background: #0b0f14;
       border: 1px solid #30363d;
       border-radius: 10px;
@@ -324,6 +372,7 @@
     .term-close:hover { color: #e6edf3; }
     .term-output {
       flex: 1;
+      min-height: 0;
       overflow-y: auto;
       padding: 1rem 1.2rem;
       color: #7ee787;
@@ -345,12 +394,29 @@
     .term-prompt { color: #7ee787; white-space: nowrap; font-size: 0.95rem; }
     .term-input {
       flex: 1;
+      min-width: 0;
       background: transparent;
       border: none;
       outline: none;
       color: #e6edf3;
       font-family: inherit;
       font-size: 0.95rem;
+    }
+
+    /* Handy: Terminal füllt den ganzen Bildschirm */
+    @media (max-width: 600px) {
+      .term-overlay { padding: 0; }
+      .term-window {
+        max-width: none;
+        height: 100vh;
+        height: 100dvh;
+        border-radius: 0;
+        border: none;
+      }
+      .term-output { font-size: 0.85rem; padding: 0.75rem; }
+      .term-input-row { padding: 0.6rem 0.75rem; }
+      .term-prompt { font-size: 0.8rem; }
+      .term-input { font-size: 16px; }
     }
   </style>
 </head>
@@ -559,7 +625,9 @@
   <footer>
     <p>© 2026 Anthony Franz. Built with code &amp; coffee.</p>
     <p class="footer-links"><a href="datenschutz.html">Datenschutz</a></p>
-    <p class="konami-hint">Psst … Cheat-Code? ↑ ↑ ↓ ↓ ← → ← → B A</p>
+    <p class="konami-hint" id="konami-text">Psst … Cheat-Code? ↑ ↑ ↓ ↓ ← → ← → B A</p>
+    <!-- Nur auf Touch-Geräten sichtbar, Script/script.js schaltet ihn frei -->
+    <button id="pad-open" class="btn btn-secondary pad-open" type="button" hidden>Cheat-Code eingeben</button>
   </footer>
 
   <button id="toTop" onclick="scrollToTop()" aria-label="Nach oben scrollen">
@@ -579,6 +647,23 @@
         <input id="term-input" class="term-input" type="text" spellcheck="false" aria-label="Befehl eingeben" />
       </form>
     </div>
+  </div>
+
+  <!-- Eingabeleiste für den Cheat-Code auf Touch-Geräten -->
+  <div id="touch-pad" class="touch-pad" role="group" aria-label="Cheat-Code eingeben" hidden>
+    <div class="pad-row">
+      <button type="button" class="pad-btn" data-key="ArrowUp" aria-label="Pfeil hoch">↑</button>
+    </div>
+    <div class="pad-row">
+      <button type="button" class="pad-btn" data-key="ArrowLeft" aria-label="Pfeil links">←</button>
+      <button type="button" class="pad-btn" data-key="ArrowDown" aria-label="Pfeil runter">↓</button>
+      <button type="button" class="pad-btn" data-key="ArrowRight" aria-label="Pfeil rechts">→</button>
+    </div>
+    <div class="pad-row">
+      <button type="button" class="pad-btn round" data-key="b" aria-label="B">B</button>
+      <button type="button" class="pad-btn round" data-key="a" aria-label="A">A</button>
+    </div>
+    <button id="pad-close" class="pad-close" type="button">Schliessen</button>
   </div>
 
   <!-- Projekt-Detailfenster, wird von Script/projects.js gefüllt -->

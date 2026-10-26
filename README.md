@@ -19,4 +19,30 @@ Im Hero-Bereich steht ein interaktiver 3D-Schreibtisch, gebaut mit [Three.js](ht
 ### Labor-Terminal
 Ein Doppelklick auf den Monitor öffnet ein Terminal. Mit `help` werden alle Befehle angezeigt. Esc, `exit` oder ein Klick auf den dunklen Hintergrund schliessen es.
 
-## Projektstruktur
+## Lokal ausführen
+
+Die Seite braucht einen lokalen Webserver, weil der Browser ES-Module (`desk.js`) nicht über `file://` lädt.
+
+```bash
+# Im Projektordner
+python -m http.server 8000
+```
+
+Dann im Browser `http://localhost:8000` öffnen.
+
+Alternativ funktioniert die VS-Code-Erweiterung *Live Server*.
+
+## Technologien
+
+- HTML5, CSS3, JavaScript (ES-Module)
+- [Three.js](https://threejs.org) 0.160.0 (über CDN)
+- Font Awesome und Google Fonts (über CDN)
+- Hosting über GitHub Pages
+
+## Lizenz
+
+Siehe [LICENSE](LICENSE).
+
+---
+
+© 2026 Anthony Franz

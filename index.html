@@ -40,7 +40,14 @@
       align-items: center;
       gap: 0.5rem;
     }
-    .hero-content .subtitle { margin-bottom: 0; }
+    .hero-content .subtitle { margin-bottom: 0; min-height: 1.6em; }
+
+    /* Schreibmaschinen-Cursor */
+    .typing-caret::after {
+      content: '|';
+      margin-left: 2px;
+      animation: blink 1s step-end infinite;
+    }
 
     .desk-section {
       width: 100%;
@@ -99,10 +106,178 @@
     .hero-body .text-card { width: 100%; box-sizing: border-box; }
     .hero-actions .btn-primary { margin-top: 0; }
 
+    /* Lebenslauf-Vorschau */
+    .cv-preview { margin: 0 0 1.5rem; }
+    .cv-frame {
+      width: 100%;
+      height: 640px;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      background: var(--surface-color);
+      display: block;
+    }
+    .cv-fallback { color: var(--text-muted); padding: 1rem; }
+    @media (max-width: 600px) {
+      .cv-frame { height: 480px; }
+    }
+
+    /* Projektkarten als Buttons */
+    .project-card {
+      font: inherit;
+      text-align: left;
+      cursor: pointer;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    /* Projekt-Detailfenster */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      box-sizing: border-box;
+      z-index: 2200;
+    }
+    .modal-window {
+      width: min(860px, 100%);
+      max-height: 88vh;
+      background: var(--surface-color);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .modal-head h3 { margin: 0; font-size: 1.2rem; }
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 0 0.3rem;
+    }
+    .modal-close:hover { color: var(--text-main); }
+    .modal-tags { padding: 0.9rem 1.25rem 0; display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    .modal-body {
+      padding: 1rem 1.25rem;
+      overflow-y: auto;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .modal-body h1, .modal-body h2, .modal-body h3, .modal-body h4 { color: var(--text-main); }
+    .modal-body a { color: var(--accent-secondary); }
+    .modal-body img { max-width: 100%; height: auto; }
+    .modal-body pre {
+      background: var(--bg-color);
+      border: 1px solid var(--border-color);
+      padding: 0.75rem;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+    .modal-body code { font-family: 'JetBrains Mono', monospace; font-size: 0.9em; }
+    .modal-body table { border-collapse: collapse; width: 100%; }
+    .modal-body th, .modal-body td { border: 1px solid var(--border-color); padding: 0.4rem 0.6rem; text-align: left; }
+    .modal-status { font-style: italic; }
+    .modal-foot {
+      display: flex;
+      justify-content: flex-end;
+      padding: 1rem 1.25rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    /* Kontaktformular */
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-width: 620px;
+      margin-bottom: 2rem;
+    }
+    .contact-form label {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+    .contact-form input,
+    .contact-form textarea {
+      background: var(--surface-color);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 0.7rem 0.9rem;
+      font-family: inherit;
+      font-size: 1rem;
+    }
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      outline: 2px solid var(--accent-primary);
+      outline-offset: 1px;
+    }
+    .contact-form textarea { resize: vertical; }
+    .contact-form button { align-self: flex-start; cursor: pointer; }
+    .form-status { min-height: 1.4em; color: var(--text-muted); margin: 0; }
+    /* Honeypot: für Menschen unsichtbar, Bots füllen es oft aus */
+    .hp { position: absolute !important; left: -9999px !important; width: 1px; height: 1px; opacity: 0; }
+
     /* Tech-Stack */
     .stack-group { margin-bottom: 1.25rem; }
     .stack-group h3 { margin-bottom: 0.5rem; font-size: 1rem; }
     .stack-group .tech-tag { margin: 0 0.4rem 0.4rem 0; display: inline-block; }
+
+    /* Footer-Links und Konami-Hinweis */
+    footer a { color: var(--text-muted); }
+    footer a:hover { color: var(--text-main); }
+    .footer-links { margin: 0.5rem 0 0; }
+    .konami-hint {
+      margin: 0.75rem 0 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      opacity: 0.55;
+      transition: opacity 0.3s ease;
+    }
+    .konami-hint:hover { opacity: 0.95; }
+
+    /* Konami-Toast */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--surface-color);
+      color: var(--text-main);
+      border: 1px solid var(--accent-primary);
+      border-radius: 8px;
+      padding: 0.6rem 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      z-index: 2500;
+    }
+
+    /* Matrix-Regen für den Konami-Code */
+    .rain-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1500;
+      opacity: 0.35;
+    }
 
     /* Terminal-Overlay */
     .term-overlay {
@@ -195,7 +370,7 @@
   <div class="hero" id="home">
     <div class="hero-content">
       <h1 class="typing">Hello World<span class="cursor">_</span></h1>
-      <p class="subtitle">Junior IT Engineer · Applikations- &amp; Plattformentwicklung</p>
+      <p class="subtitle" id="subtitle">Junior IT Engineer · Applikations- &amp; Plattformentwicklung</p>
     </div>
 
     <section class="desk-section">
@@ -243,6 +418,16 @@
       <strong>Sprachen:</strong> Deutsch (Muttersprache), Thai (Muttersprache), Englisch (C1, Cambridge)<br />
       <strong>Zertifikat:</strong> AISA Official AI Skills &amp; Fluency Certificate
     </p>
+
+    <!-- Lebenslauf-Vorschau: auf Handys zeigt der Browser oft nur den Link -->
+    <div class="cv-preview">
+      <iframe src="cv_anthony_franz.pdf#view=FitH" class="cv-frame" title="Lebenslauf von Anthony Franz" loading="lazy">
+        <p class="cv-fallback">
+          Die Vorschau wird in diesem Browser nicht angezeigt.
+          <a href="cv_anthony_franz.pdf" target="_blank" rel="noopener">Lebenslauf in neuem Tab öffnen</a>.
+        </p>
+      </iframe>
+    </div>
     <div class="buttons">
       <a href="cv_anthony_franz.pdf" target="_blank" class="btn btn-secondary">
         <i class="fa-solid fa-file-pdf"></i> Lebenslauf herunterladen
@@ -302,7 +487,6 @@
     <ul class="section-text">
       <li><strong>bis 09/2027:</strong> Abschluss der EFZ-Ausbildung zum Informatiker mit Spezialisierung in Applikations- und Plattformentwicklung.</li>
       <li><strong>ab 09/2027:</strong> Festanstellung im Raum Basel. Falls Sie jemanden mit diesem Profil suchen, melden Sie sich gerne bei mir.</li>
-      <li><strong>bis 2029:</strong> [Ziel bis 2029]</li>
     </ul>
   </section>
 
@@ -311,24 +495,24 @@
       <h2><span class="mono-accent">04.</span> Projekte</h2>
     </div>
     <p class="section-text">
-      Eine Auswahl meiner Projekte. Klicke auf die Karten, um Code und weitere Infos auf GitHub zu sehen.
+      Eine Auswahl meiner Projekte. Klicke auf eine Karte, um die Beschreibung aus dem GitHub-Repo zu sehen.
     </p>
     <div class="project-grid">
-      <a href="https://github.com/44erHaze/SaveUp2025" target="_blank" class="project-card">
+      <button type="button" class="project-card" data-project="saveup">
         <h3>SaveUp App</h3>
         <p>Finanz- und Spar-Tracker Applikation.</p>
         <span class="tech-tag">C# / .NET</span>
-      </a>
-      <a href="https://github.com/44erHaze/JetstreamService" target="_blank" class="project-card">
+      </button>
+      <button type="button" class="project-card" data-project="jetstream">
         <h3>JetStreamService</h3>
         <p>Backend-Service-System mit Fokus auf Performance.</p>
         <span class="tech-tag">Java</span>
-      </a>
-      <a href="https://github.com/44erHaze/CRUD" target="_blank" class="project-card">
+      </button>
+      <button type="button" class="project-card" data-project="crud">
         <h3>CRUD</h3>
         <p>Create-Read-Update-Delete Applikation.</p>
         <span class="tech-tag">SQL / Backend</span>
-      </a>
+      </button>
     </div>
   </section>
 
@@ -339,6 +523,32 @@
     <p class="section-text">
       Ich freue mich über Austausch und neue Projekte. Ich bin im Raum Basel vor Ort oder hybrid erreichbar.
     </p>
+
+    <form id="contact-form" class="contact-form" autocomplete="off">
+      <!-- Web3Forms: Key aus deiner Bestätigungsmail hier eintragen -->
+      <input type="hidden" name="access_key" value="DEIN_WEB3FORMS_ACCESS_KEY" />
+      <input type="hidden" name="subject" value="Neue Nachricht über dein Portfolio" />
+      <input type="hidden" name="from_name" value="Portfolio" />
+      <!-- Honeypot: bleibt für Menschen leer -->
+      <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+      <label>
+        Name
+        <input type="text" name="name" required />
+      </label>
+      <label>
+        E-Mail
+        <input type="email" name="email" required />
+      </label>
+      <label>
+        Nachricht
+        <textarea name="message" rows="5" required></textarea>
+      </label>
+
+      <button type="submit" class="btn btn-primary">Nachricht senden</button>
+      <p id="form-status" class="form-status" role="status"></p>
+    </form>
+
     <div class="social-links">
       <a href="mailto:anthony.franz7@gmail.com" class="social-btn"><i class="fa-solid fa-envelope"></i> E-Mail</a>
       <a href="https://www.linkedin.com/in/anthony-franz/" target="_blank" class="social-btn"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
@@ -348,6 +558,8 @@
 
   <footer>
     <p>© 2026 Anthony Franz. Built with code &amp; coffee.</p>
+    <p class="footer-links"><a href="datenschutz.html">Datenschutz</a></p>
+    <p class="konami-hint">Psst … Cheat-Code? ↑ ↑ ↓ ↓ ← → ← → B A</p>
   </footer>
 
   <button id="toTop" onclick="scrollToTop()" aria-label="Nach oben scrollen">
@@ -369,7 +581,25 @@
     </div>
   </div>
 
+  <!-- Projekt-Detailfenster, wird von Script/projects.js gefüllt -->
+  <div id="project-modal" class="modal" hidden>
+    <div class="modal-window" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-head">
+        <h3 id="modal-title"></h3>
+        <button id="modal-close" class="modal-close" type="button" aria-label="Schliessen">✕</button>
+      </div>
+      <div id="modal-tags" class="modal-tags"></div>
+      <div id="modal-body" class="modal-body"></div>
+      <div class="modal-foot">
+        <a id="modal-repo" href="https://github.com/44erHaze" target="_blank" rel="noopener" class="btn btn-secondary">
+          <i class="fab fa-github"></i> Repo auf GitHub
+        </a>
+      </div>
+    </div>
+  </div>
+
   <script src="Script/script.js"></script>
   <script type="module" src="Script/desk.js"></script>
+  <script type="module" src="Script/projects.js"></script>
 </body>
 </html>

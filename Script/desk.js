@@ -79,6 +79,30 @@ function drawScreen() {
   screenTex.needsUpdate = true;
 }
 
+// Aufkleber auf der Rückseite: Hinweis auf den Konami-Code
+function drawBackSticker(ctx, w, h) {
+  ctx.fillStyle = '#f5c542';
+  ctx.fillRect(0, 0, w, h);
+
+  ctx.strokeStyle = '#0b0f14';
+  ctx.lineWidth = 6;
+  ctx.strokeRect(6, 6, w - 12, h - 12);
+
+  ctx.fillStyle = '#0b0f14';
+  ctx.textAlign = 'center';
+
+  ctx.font = 'bold 40px monospace';
+  ctx.fillText('CHEAT CODE', w / 2, 62);
+
+  ctx.font = '34px monospace';
+  ctx.fillText('↑ ↑ ↓ ↓ ← → ← → B A', w / 2, 120);
+
+  ctx.font = '22px monospace';
+  ctx.fillText('auf der Seite eingeben', w / 2, 166);
+
+  ctx.textAlign = 'left';
+}
+
 // ---------- 3D-Szene ----------
 
 function buildScene() {
@@ -127,7 +151,24 @@ function buildScene() {
   screen.userData.action = 'monitor';
   clickables.push(screen);
 
-  monitor.add(bezel, stand, screen);
+  // Aufkleber auf der Rückseite des Monitors
+  const stickerCanvas = document.createElement('canvas');
+  stickerCanvas.width = 512;
+  stickerCanvas.height = 200;
+  const stickerCtx = stickerCanvas.getContext('2d');
+  drawBackSticker(stickerCtx, stickerCanvas.width, stickerCanvas.height);
+  const stickerTex = new THREE.CanvasTexture(stickerCanvas);
+  stickerTex.colorSpace = THREE.SRGBColorSpace;
+
+  const sticker = new THREE.Mesh(
+    new THREE.PlaneGeometry(1.5, 0.6),
+    new THREE.MeshBasicMaterial({ map: stickerTex })
+  );
+  // Um 180 Grad gedreht, damit die Schrift von hinten lesbar ist
+  sticker.rotation.y = Math.PI;
+  sticker.position.set(0, 0.6, -0.046);
+
+  monitor.add(bezel, stand, screen, sticker);
   deskGroup.add(monitor);
   drawScreen();
 

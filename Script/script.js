@@ -1,8 +1,10 @@
 // Theme-Umschalter, Scroll-Hilfen, Nach-oben-Button,
-// Schreibmaschinen-Effekt, Konami-Code und Kontaktformular.
+// Schreibmaschinen-Effekt, Konami-Code (Tastatur und Touch),
+// Kontaktformular und CV-Anfrage.
 
 const THEME_KEY = 'theme';
 const REDUCE_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const IS_TOUCH = window.matchMedia('(pointer: coarse)').matches;
 
 // ---------- Theme ----------
 
@@ -148,16 +150,13 @@ function toggleRain() {
     showToast('Matrix-Modus aus');
   } else {
     rain = startRain();
-    showToast('Matrix-Modus an. Konami-Code erneut eingeben zum Beenden.');
+    showToast('Matrix-Modus an. Cheat-Code erneut eingeben zum Beenden.');
   }
 }
 
-document.addEventListener('keydown', (e) => {
-  // Nicht reagieren, wenn gerade in ein Eingabefeld getippt wird
-  const tag = e.target.tagName;
-  if (tag === 'INPUT' || tag === 'TEXTAREA') return;
-
-  const key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+// Eine Taste (Tastatur oder Touch-Button) in die Konami-Sequenz einordnen
+function handleKonamiKey(rawKey) {
+  const key = rawKey.length === 1 ? rawKey.toLowerCase() : rawKey;
 
   if (key === KONAMI[konamiIndex]) {
     konamiIndex++;
@@ -168,7 +167,45 @@ document.addEventListener('keydown', (e) => {
   } else {
     konamiIndex = key === KONAMI[0] ? 1 : 0;
   }
+}
+
+// Tastatureingaben: nicht reagieren, wenn gerade in ein Eingabefeld getippt wird
+document.addEventListener('keydown', (e) => {
+  const tag = e.target.tagName;
+  if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+  handleKonamiKey(e.key);
 });
+
+// ---------- Touch-Eingabe für den Cheat-Code ----------
+
+const padOpen = document.getElementById('pad-open');
+const touchPad = document.getElementById('touch-pad');
+const padClose = document.getElementById('pad-close');
+const konamiText = document.getElementById('konami-text');
+
+if (IS_TOUCH) {
+  // Auf Handys den Button zeigen und den Hinweistext anpassen
+  if (padOpen) padOpen.hidden = false;
+  if (konamiText) konamiText.textContent = 'Psst … Cheat-Code? Unten auf den Button tippen.';
+}
+
+if (padOpen && touchPad) {
+  padOpen.addEventListener('click', () => {
+    touchPad.hidden = false;
+  });
+}
+
+if (padClose && touchPad) {
+  padClose.addEventListener('click', () => {
+    touchPad.hidden = true;
+  });
+}
+
+if (touchPad) {
+  touchPad.querySelectorAll('[data-key]').forEach((btn) => {
+    btn.addEventListener('click', () => handleKonamiKey(btn.dataset.key));
+  });
+}
 
 // ---------- Kontaktformular (Web3Forms) ----------
 
@@ -211,8 +248,10 @@ if (form) {
       if (json.success) {
         formStatus.textContent = 'Danke, deine Nachricht ist angekommen.';
         form.reset();
+        // Betreff nach dem Senden wieder auf den Standard setzen
+        const subjectField = document.getElementById('form-subject');
+        if (subjectField) subjectField.value = 'Neue Nachricht über dein Portfolio';
       } else {
-        // Genauen Grund in der Konsole ausgeben (F12 → Konsole)
         console.error('Web3Forms Antwort:', res.status, json);
         formStatus.textContent = json.message
           ? `Senden fehlgeschlagen: ${json.message}`
@@ -221,6 +260,28 @@ if (form) {
     } catch (err) {
       console.error('Web3Forms Netzwerkfehler:', err);
       formStatus.textContent = 'Keine Verbindung. Bitte schreib direkt per E-Mail.';
+    }
+  });
+}
+
+// ---------- CV-Anfrage ----------
+
+// Öffnet das Kontaktformular mit vorausgefülltem Betreff und Text
+const cvRequest = document.getElementById('cv-request');
+const formSubject = document.getElementById('form-subject');
+const messageField = form ? form.querySelector('textarea[name="message"]') : null;
+const nameField = form ? form.querySelector('input[name="name"]') : null;
+
+if (cvRequest && form) {
+  cvRequest.addEventListener('click', () => {
+    if (formSubject) formSubject.value = 'Anfrage: vollständiges CV';
+    if (messageField && !messageField.value.trim()) {
+      messageField.value = 'Guten Tag, ich möchte gerne das vollständige CV erhalten. Vielen Dank!';
+    }
+    document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+    if (nameField) {
+      // Kurz warten, bis die Seite gescrollt ist, dann Fokus setzen
+      setTimeout(() => nameField.focus({ preventScroll: true }), 600);
     }
   });
 }

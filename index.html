@@ -106,20 +106,29 @@
     .hero-body .text-card { width: 100%; box-sizing: border-box; }
     .hero-actions .btn-primary { margin-top: 0; }
 
-    /* Lebenslauf-Vorschau */
-    .cv-preview { margin: 0 0 1.5rem; }
-    .cv-frame {
-      width: 100%;
-      height: 640px;
+    /* Lebenslauf-Kurzfassung (ohne persönliche Angaben) */
+    .cv-short {
+      background: var(--surface-color);
       border: 1px solid var(--border-color);
       border-radius: 12px;
-      background: var(--surface-color);
-      display: block;
+      padding: 1.5rem 1.75rem;
+      margin: 0 0 1.5rem;
+      color: var(--text-muted);
+      line-height: 1.6;
     }
-    .cv-fallback { color: var(--text-muted); padding: 1rem; }
-    @media (max-width: 600px) {
-      .cv-frame { height: 480px; }
+    .cv-short h3 { color: var(--text-main); margin: 0 0 0.5rem; font-size: 1.3rem; }
+    .cv-short h4 { color: var(--text-main); margin: 1.5rem 0 0.5rem; font-size: 1.05rem; }
+    .cv-short ul { padding-left: 1.2rem; margin: 0; }
+    .cv-short li { margin-bottom: 0.5rem; }
+    .cv-short .cv-note { font-size: 0.85rem; font-style: italic; margin-bottom: 0; }
+    .cv-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
     }
+    .cv-actions small { color: var(--text-muted); text-align: center; max-width: 480px; }
 
     /* Projektkarten als Buttons */
     .project-card {
@@ -252,6 +261,48 @@
     }
     .konami-hint:hover { opacity: 0.95; }
 
+    /* Touch-Eingabe für den Cheat-Code (nur auf Touch-Geräten sichtbar) */
+    .pad-open { margin-top: 0.75rem; }
+    .touch-pad {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--surface-color);
+      border-top: 1px solid var(--accent-primary);
+      padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom, 0px));
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      z-index: 2400;
+    }
+    .pad-row { display: flex; gap: 0.5rem; justify-content: center; }
+    .pad-btn {
+      min-width: 64px;
+      min-height: 52px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.2rem;
+      color: var(--text-main);
+      background: var(--bg-color);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+    .pad-btn.round { border-radius: 50%; min-width: 64px; min-height: 64px; }
+    .pad-btn:active { background: var(--accent-primary); color: #fff; }
+    .pad-close {
+      margin-top: 0.25rem;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      cursor: pointer;
+      padding: 0.4rem;
+    }
+
     /* Konami-Toast */
     .toast {
       position: fixed;
@@ -266,6 +317,9 @@
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.9rem;
       z-index: 2500;
+      max-width: calc(100% - 2rem);
+      box-sizing: border-box;
+      text-align: center;
     }
 
     /* Matrix-Regen für den Konami-Code */
@@ -292,8 +346,11 @@
       z-index: 2000;
     }
     .term-window {
-      width: min(1200px, 100%);
+      width: 100%;
+      max-width: 1200px;
+      min-width: 0;
       height: min(85vh, 820px);
+      box-sizing: border-box;
       background: #0b0f14;
       border: 1px solid #30363d;
       border-radius: 10px;
@@ -324,6 +381,7 @@
     .term-close:hover { color: #e6edf3; }
     .term-output {
       flex: 1;
+      min-height: 0;
       overflow-y: auto;
       padding: 1rem 1.2rem;
       color: #7ee787;
@@ -345,12 +403,30 @@
     .term-prompt { color: #7ee787; white-space: nowrap; font-size: 0.95rem; }
     .term-input {
       flex: 1;
+      min-width: 0;
       background: transparent;
       border: none;
       outline: none;
       color: #e6edf3;
       font-family: inherit;
       font-size: 0.95rem;
+    }
+
+    /* Handy: Terminal füllt den ganzen Bildschirm */
+    @media (max-width: 600px) {
+      .term-overlay { padding: 0; }
+      .term-window {
+        max-width: none;
+        height: 100vh;
+        height: 100dvh;
+        border-radius: 0;
+        border: none;
+      }
+      .term-output { font-size: 0.85rem; padding: 0.75rem; }
+      .term-input-row { padding: 0.6rem 0.75rem; }
+      .term-prompt { font-size: 0.8rem; }
+      .term-input { font-size: 16px; }
+      .cv-short { padding: 1.1rem; }
     }
   </style>
 </head>
@@ -419,19 +495,57 @@
       <strong>Zertifikat:</strong> AISA Official AI Skills &amp; Fluency Certificate
     </p>
 
-    <!-- Lebenslauf-Vorschau: auf Handys zeigt der Browser oft nur den Link -->
-    <div class="cv-preview">
-      <iframe src="cv_anthony_franz.pdf#view=FitH" class="cv-frame" title="Lebenslauf von Anthony Franz" loading="lazy">
-        <p class="cv-fallback">
-          Die Vorschau wird in diesem Browser nicht angezeigt.
-          <a href="cv_anthony_franz.pdf" target="_blank" rel="noopener">Lebenslauf in neuem Tab öffnen</a>.
-        </p>
-      </iframe>
+    <!-- Lebenslauf-Kurzfassung ohne persönliche Angaben -->
+    <div class="cv-short">
+      <h3>Lebenslauf (Kurzfassung)</h3>
+      <p class="cv-note">Persönliche Angaben und Kontaktdaten sind hier entfernt.</p>
+
+      <h4>Profil</h4>
+      <p>
+        Angehender Informatiker EFZ mit Schwerpunkt in Applikations- und Plattformentwicklung. Kenntnisse in
+        Softwareentwicklung, Datenbanken, REST-APIs sowie IT-Systemen und Netzwerken. Zuverlässig, strukturiert und
+        lösungsorientiert.
+      </p>
+
+      <h4>Beruflicher Werdegang</h4>
+      <ul>
+        <li>
+          <strong>07/2022 – heute: Ausbildung zum Informatiker EFZ, Ipso! Basel</strong><br />
+          ICT-Applikationsentwickler und Plattformentwickler. Programmierung und Testing (C#, Java, JavaScript,
+          REST-APIs), Aufbau und Administration von Netzwerken (Cisco) und Server-Virtualisierungen (VirtualBox, Hyper-V),
+          Datenbanken (MySQL, MongoDB), agile Projektarbeit mit Fokus auf Qualitätssicherung sowie IoT/IoE-Integration.
+        </li>
+        <li>
+          <strong>07/2019 – 2022: Diverse temporäre Stellen, Region Basel</strong><br />
+          Stadtreinigung Basel-Stadt (Sicherstellung der öffentlichen Ordnung). Brocki Reinach (Warenlagerung,
+          Kundenberatung, Durchführung von Logistikprojekten).
+        </li>
+        <li>
+          <strong>07/2017 – 08/2018: Lernender Kaufmann EFZ, Valora AG Muttenz</strong> (ohne Abschluss)<br />
+          Schwerpunkte Marketing sowie Brand und Product Management.
+        </li>
+      </ul>
+
+      <h4>Qualifikationen</h4>
+      <ul>
+        <li><strong>Programmiersprachen:</strong> C#, Java, JavaScript, HTML5, CSS, PowerShell</li>
+        <li><strong>Datenbanken:</strong> SQL, NoSQL (MongoDB), Neo4j</li>
+        <li><strong>Tools und Frameworks:</strong> Git, Visual Studio, Node.js, REST-APIs, Postman, Docker (Grundkenntnisse)</li>
+        <li><strong>Methoden:</strong> Agile Methoden, Scrum, DevOps, TDD</li>
+        <li><strong>Betriebssysteme:</strong> Windows, Linux (Server, Ubuntu)</li>
+        <li><strong>Netzwerk:</strong> Grundlagen TCP/IP, Cisco, IoT/IoE</li>
+      </ul>
+
+      <h4>Sprachen</h4>
+      <p>Deutsch (Muttersprache), Thai (Muttersprache), Englisch (C1, Cambridge)</p>
     </div>
-    <div class="buttons">
-      <a href="cv_anthony_franz.pdf" target="_blank" class="btn btn-secondary">
-        <i class="fa-solid fa-file-pdf"></i> Lebenslauf herunterladen
-      </a>
+
+    <!-- Vollständiges CV nur auf Anfrage: öffnet das Kontaktformular mit vorausgefüllter Anfrage -->
+    <div class="cv-actions">
+      <button id="cv-request" class="btn btn-secondary" type="button">
+        <i class="fa-solid fa-file-lines"></i> Vollständiges CV auf Anfrage
+      </button>
+      <small>Du gibst deinen Namen und deine E-Mail-Adresse an. Ich schicke dir das vollständige CV danach per E-Mail.</small>
     </div>
   </section>
 
@@ -527,7 +641,7 @@
     <form id="contact-form" class="contact-form" autocomplete="off">
       <!-- Web3Forms: Key aus deiner Bestätigungsmail hier eintragen -->
       <input type="hidden" name="access_key" value="DEIN_WEB3FORMS_ACCESS_KEY" />
-      <input type="hidden" name="subject" value="Neue Nachricht über dein Portfolio" />
+      <input type="hidden" name="subject" id="form-subject" value="Neue Nachricht über dein Portfolio" />
       <input type="hidden" name="from_name" value="Portfolio" />
       <!-- Honeypot: bleibt für Menschen leer -->
       <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
@@ -559,7 +673,9 @@
   <footer>
     <p>© 2026 Anthony Franz. Built with code &amp; coffee.</p>
     <p class="footer-links"><a href="datenschutz.html">Datenschutz</a></p>
-    <p class="konami-hint">Psst … Cheat-Code? ↑ ↑ ↓ ↓ ← → ← → B A</p>
+    <p class="konami-hint" id="konami-text">Psst … Cheat-Code? ↑ ↑ ↓ ↓ ← → ← → B A</p>
+    <!-- Nur auf Touch-Geräten sichtbar, Script/script.js schaltet ihn frei -->
+    <button id="pad-open" class="btn btn-secondary pad-open" type="button" hidden>Cheat-Code eingeben</button>
   </footer>
 
   <button id="toTop" onclick="scrollToTop()" aria-label="Nach oben scrollen">
@@ -579,6 +695,23 @@
         <input id="term-input" class="term-input" type="text" spellcheck="false" aria-label="Befehl eingeben" />
       </form>
     </div>
+  </div>
+
+  <!-- Eingabeleiste für den Cheat-Code auf Touch-Geräten -->
+  <div id="touch-pad" class="touch-pad" role="group" aria-label="Cheat-Code eingeben" hidden>
+    <div class="pad-row">
+      <button type="button" class="pad-btn" data-key="ArrowUp" aria-label="Pfeil hoch">↑</button>
+    </div>
+    <div class="pad-row">
+      <button type="button" class="pad-btn" data-key="ArrowLeft" aria-label="Pfeil links">←</button>
+      <button type="button" class="pad-btn" data-key="ArrowDown" aria-label="Pfeil runter">↓</button>
+      <button type="button" class="pad-btn" data-key="ArrowRight" aria-label="Pfeil rechts">→</button>
+    </div>
+    <div class="pad-row">
+      <button type="button" class="pad-btn round" data-key="b" aria-label="B">B</button>
+      <button type="button" class="pad-btn round" data-key="a" aria-label="A">A</button>
+    </div>
+    <button id="pad-close" class="pad-close" type="button">Schliessen</button>
   </div>
 
   <!-- Projekt-Detailfenster, wird von Script/projects.js gefüllt -->
